@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 interface LoginRequest {
   email: string;
@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const supabase = getSupabase();
 
     const { data: user } = await supabase
       .from('auth_signup_login_1777751635869_users')
@@ -61,7 +63,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    // Store user email in response for client to save
     response.headers.set('X-User-Email', user.email);
 
     return response;

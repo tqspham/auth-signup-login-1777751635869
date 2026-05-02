@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 interface SignupRequest {
   email: string;
@@ -33,6 +33,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const supabase = getSupabase();
 
     const { data: existingUser } = await supabase
       .from('auth_signup_login_1777751635869_users')
